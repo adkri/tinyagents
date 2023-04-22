@@ -1,2 +1,4 @@
 openai
 chromadb
+httpx
+duckduckgo_search
