@@ -24,6 +24,9 @@ class Stats:
         self.usage["total_tokens"] += completion.usage.total_tokens
         return completion
 
+    def __repr__(self) -> str:
+        return f"Completion token: {self.usage['completion_tokens']}"
+
 
 class LLM:
     def __init__(self, system=""):
@@ -93,6 +96,9 @@ class Agent:
             + EXAMPLE_SESSION
         )
 
+    def stats(self):
+        return self.llm.stats
+
     def __call__(self, query):
         i = 0
         next_prompt = query
@@ -116,7 +122,10 @@ class Agent:
 if __name__ == "__main__":
     executors = [DuckDuckGo(), Wikipedia(), SimpleEvaluator()]
     agent = Agent(executors)
+    print(agent.initial_prompt())
+    print()
     # agent("what is the height of the 2nd tallest building in the world?")
     agent(
         "what is the height of the 2nd tallest building in the world? and what does wikipedia say about it?"
     )
+    print(agent.stats())
